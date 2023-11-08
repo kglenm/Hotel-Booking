@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="000" author="kgomotso">
+        <createSequence sequenceName="sequence_generator" startValue="100" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="001" author="kgomotso">
+        <createTable tableName="user">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(50)"/>
+            <column name="last_name" type="varchar(50)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_date" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="hotel">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_date" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="reservation">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="status" type="INT"/>
+            <column name="room_number" type="varchar(20)">
+                    <constraints nullable="false"/>
+            </column>
+            <column name="start_date_time" type="timestamp"/>
+            <column name="end_date_time" type="timestamp"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="user_id" type="bigint"/>
+            <column name="hotel_id" type="bigint"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="reservation"
+                                 constraintName="fk_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+
+        <addForeignKeyConstraint baseColumnNames="hotel_id"
+                                 baseTableName="reservation"
+                                 constraintName="fk_hotel_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="hotel"/>
+
+        <loadData
+                  file="liquibase/data/user.csv"
+                  separator=";"
+                  tableName="user"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="created_date" type="timestamp"/>
+        </loadData>
+
+        <loadData
+                file="liquibase/data/hotel.csv"
+                separator=";"
+                tableName="hotel"
+                usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="created_date" type="timestamp"/>
+        </loadData>
+
+        <loadData
+                file="liquibase/data/reservation.csv"
+                separator=";"
+                tableName="reservation"
+                usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="created_date" type="timestamp"/>
+        </loadData>
+
+    </changeSet>
+</databaseChangeLog>

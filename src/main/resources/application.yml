@@ -1,0 +1,18 @@
+logging:
+  level:
+    ROOT: INFO
+    org.hibernate.SQL: INFO
+    com.dijicert.booking: INFO
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:file:./target/h2db/db/booking;DB_CLOSE_DELAY=-1
+    username: booking
+    password:
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  h2:
+    console:
+      enabled: false

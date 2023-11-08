@@ -1,0 +1,12 @@
+logging:
+  level:
+    ROOT: DEBUG
+    org.hibernate.SQL: DEBUG
+    com.dijicert.booking: DEBUG
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    username: test
+    password: test
